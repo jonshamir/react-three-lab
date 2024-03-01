@@ -17,16 +17,16 @@ const float M_PI = 3.14159265358979323846264338327950288;
 const float M_PI_3 = 1.0471975512;
 
 
-float sdCircle(in vec2 p, in float r) 
+float ddLength(float a)
 {
-    return length(p) - r;
+  return length(vec2(dFdx(a), dFdy(a)));
 }
 
 float circle(in vec2 p)
 {
     float d = length(p - vec2(0.5, 0.5));
     float baseRadius = u_radius;
-    float pixelRadius = fwidth(d) * 0.5; // Derivative of the distance field
+    float pixelRadius = ddLength(d) * 0.5; // Derivative of the distance field
     float finalRadius = max(baseRadius, pixelRadius * 2.0);
     float radiusAA = pixelRadius * 1.5;
     float circle = 1.0 - smoothstep(finalRadius - radiusAA, finalRadius + radiusAA, d);
