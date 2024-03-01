@@ -43,9 +43,8 @@ void main() {
 
     uv = vec2(fract(uv.x * n), fract(uv.y * n));
     
-	  float c = circle(uv);
-    vec3 color = vec3(c) * 0.7 + 0.1;    
-
+	float c = circle(uv);
+    vec3 color = vec3(c);
     gl_FragColor = vec4(color, 1.0);
     // gl_FragColor = vec4(uv, 0.0, 1.0);
 }
