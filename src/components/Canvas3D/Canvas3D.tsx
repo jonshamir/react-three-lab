@@ -1,6 +1,4 @@
-import React, { useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Mesh } from "three";
 import styled from "@emotion/styled";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { ShaderTest } from "../ShaderTest/ShaderTest";
