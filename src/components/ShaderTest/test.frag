@@ -11,28 +11,34 @@ uniform vec2 u_mouse;
 vec3 colorA = vec3(0.912,0.191,0.652);
 vec3 colorB = vec3(1.000,0.777,0.052);
 
-// Pi, the ratio of a circle's circumference to its diameter.
-const float M_PI = 3.14159265358979323846264338327950288;
-// Pi divided by two (pi/3)
-const float M_PI_3 = 1.0471975512;
-
+const float PI = 3.14159265358979323846264338327950288;
+const float SQRT_2 = 1.4142135623730;
 
 float ddLength(float a)
 {
   return length(vec2(dFdx(a), dFdy(a)));
 }
 
-float circle(in vec2 p)
+vec2 ddLength(vec2 a)
 {
-    float d = length(p - vec2(0.5, 0.5));
-    float baseRadius = u_radius;
-    float pixelRadius = ddLength(d) * 0.5; // Derivative of the distance field
-    float finalRadius = max(baseRadius, pixelRadius * 2.0);
-    float radiusAA = pixelRadius * 1.5;
-    float circle = 1.0 - smoothstep(finalRadius - radiusAA, finalRadius + radiusAA, d);
-    // circle *= clamp(baseRadius / finalRadius, 0.0, 1.0); // Correct for the difference in area
+  return vec2(
+    length(vec2(dFdx(a.x), dFdy(a.x))),
+    length(vec2(dFdx(a.y), dFdy(a.y)))
+  );
+}
 
-    // float circle = 1.0 - step(finalRadius, d);
+float circle(in vec2 uv)
+{
+    vec2 targetRadius = vec2(u_radius);
+    vec2 dist = vec2(length(uv - vec2(0.5, 0.5)));
+    vec2 uvDeriv = ddLength(dist);
+    // vec2 drawRadius = max(targetRadius, uvDeriv * 2.0);
+    vec2 drawRadius = clamp(targetRadius, uvDeriv, vec2(SQRT_2));
+    vec2 radiusAA = uvDeriv * 1.5;
+    vec2 circle2 = smoothstep(drawRadius - radiusAA, drawRadius + radiusAA, dist);
+    float circle = mix(circle2.x, 1.0, circle2.y);
+    circle = 1.0 - circle; // Invert the circle
+    //circle *= clamp(targetRadius / drawRadius, 0.0, 1.0); // Correct for the difference in area
     return circle;
 }
 
