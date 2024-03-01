@@ -1,3 +1,5 @@
+precision mediump float;
+
 varying vec2 vUv;
 
 vec3 colorA = vec3(0.912,0.191,0.652);

@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { Mesh } from "three";
 
-import vertexShader from "./vertex.glsl";
-import fragmentShader from "./fragment.glsl";
+import vertexShader from "./basic.vert";
+import fragmentShader from "./test.frag";
 
 interface ShaderTestProps {
   position: [number, number, number];

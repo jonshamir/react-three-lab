@@ -14,8 +14,8 @@ const Canvas3DContainer = styled.div`
 export function Canvas3D() {
   return (
     <Canvas3DContainer>
-      <Canvas>
-        <OrbitControls />
+      <Canvas camera={{ fov: 45, position: [0, 0, -3] }}>
+        <OrbitControls position={[1, 0, 0]} />
         <ambientLight intensity={Math.PI / 2} />
         <spotLight
           position={[10, 10, 10]}
