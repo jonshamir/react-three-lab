@@ -1,3 +1,5 @@
+// #extension GL_OES_standard_derivatives : enable
+
 precision mediump float;
 
 varying vec2 vUv;
@@ -19,31 +21,24 @@ float sdCircle(in vec2 p, in float r)
     return length(p) - r;
 }
 
-float circle(in vec2 p, in float mouseDist)
+float circle(in vec2 p)
 {
-    float circleRadius = 0.005 + 0.06 * mouseDist;
-    float pixelRadius = 0.01;// fwidth(length(p));
+    float circleRadius = 0.1;
+    float pixelRadius = fwidth(length(p)) * 0.5;
     float radius = max(circleRadius, pixelRadius * 2.);
     float d = sdCircle(p - vec2(0.5, 0.5), radius);
-	return (1.0 - smoothstep(0.0, 0.1, d)) * (circleRadius / radius);
+    float fwidthD = fwidth(d) * 0.5;
+	return (1.0 - smoothstep(-fwidthD, fwidthD, d)) * (circleRadius / radius);
 }
 
-vec2 rotate(vec2 v, float a) {
-	float s = sin(a);
-	float c = cos(a);
-	mat2 m = mat2(c, s, -s, c);
-	return m * v;
-}
 
 void main() {
-    float n = 10.0;
+    float n = 30.0;
     vec2 uv = vUv;
-    vec2 mousePos = vec2(0.0, 0.0);
-    float mouseDist = 1.0 - smoothstep(0.0, 1.0, distance(mousePos, uv) * 1.5);
 
     uv = vec2(fract(uv.x * n), fract(uv.y * n));
     
-	  float c = circle(uv, mouseDist);
+	  float c = circle(uv);
     vec3 color = vec3(c) * 0.7 + 0.1;    
 
     gl_FragColor = vec4(color, 1.0);

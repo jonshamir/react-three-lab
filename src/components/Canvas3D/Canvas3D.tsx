@@ -6,13 +6,16 @@ import { ShaderTest } from "../ShaderTest/ShaderTest";
 const Canvas3DContainer = styled.div`
   width: 80vw;
   height: 80vw;
-  background-color: black;
+  background-color: white;
 `;
 
 export function Canvas3D() {
   return (
     <Canvas3DContainer>
-      <Canvas camera={{ fov: 45, position: [0, 0, -3] }}>
+      <Canvas
+        camera={{ fov: 45, position: [0, 0, -3] }}
+        gl={{ antialias: false }}
+      >
         <OrbitControls position={[1, 0, 0]} />
         <ambientLight intensity={Math.PI / 2} />
         <spotLight
