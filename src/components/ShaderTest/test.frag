@@ -23,12 +23,11 @@ float sdCircle(in vec2 p, in float r)
 
 float circle(in vec2 p)
 {
-    float circleRadius = 0.1;
-    float pixelRadius = fwidth(length(p)) * 0.5;
-    float radius = max(circleRadius, pixelRadius * 2.);
-    float d = sdCircle(p - vec2(0.5, 0.5), radius);
-    float fwidthD = fwidth(d) * 0.5;
-	return (1.0 - smoothstep(-fwidthD, fwidthD, d)) * (circleRadius / radius);
+    float d = length(p - vec2(0.5, 0.5));
+    float baseRadius = 0.1;
+    float pixelRadius = fwidth(d) * 0.5;
+    float radius = max(baseRadius, pixelRadius * 2.0);
+    return (1.0 - smoothstep(radius - pixelRadius, radius + pixelRadius, d)) * (baseRadius / radius);
 }
 
 

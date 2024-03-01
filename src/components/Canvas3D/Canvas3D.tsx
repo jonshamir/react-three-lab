@@ -7,6 +7,10 @@ const Canvas3DContainer = styled.div`
   width: 80vw;
   height: 80vw;
   background-color: white;
+
+  canvas {
+    image-rendering: pixelated;
+  }
 `;
 
 export function Canvas3D() {
@@ -15,6 +19,7 @@ export function Canvas3D() {
       <Canvas
         camera={{ fov: 45, position: [0, 0, -3] }}
         gl={{ antialias: false }}
+        dpr={0.5}
       >
         <OrbitControls position={[1, 0, 0]} />
         <ambientLight intensity={Math.PI / 2} />
