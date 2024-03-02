@@ -3,6 +3,7 @@
 precision mediump float;
 
 varying vec2 vUv;
+uniform float u_scale;
 uniform float u_time;
 uniform float u_radius;
 uniform vec2 u_resolution;
@@ -44,7 +45,7 @@ float circle(in vec2 uv)
 
 
 void main() {
-    float n = 30.0;
+    float n = u_scale;
     vec2 uv = vUv;
 
     uv = vec2(fract(uv.x * n), fract(uv.y * n));
