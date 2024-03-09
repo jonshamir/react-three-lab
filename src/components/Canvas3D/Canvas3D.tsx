@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Plant } from "../Plant/Plant";
 import { useControls } from "leva";
 import { useEffect, useState } from "react";
+import { Leaf } from "../Plant/Leaf";
 
 const Canvas3DContainer = styled.div`
   width: 90vw;
@@ -50,6 +51,7 @@ export function Canvas3D() {
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
 
         <Plant age={n} position={[0, -3, 0]} />
+        {/* <Leaf age={0.8} position={[0, 0, 0]} /> */}
       </Canvas>
     </Canvas3DContainer>
   );

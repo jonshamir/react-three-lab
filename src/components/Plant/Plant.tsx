@@ -12,8 +12,8 @@ interface PlantProps {
 }
 
 export function Plant({ age: n, ...props }: PlantProps) {
-  const layerHeight = 0.04;
-  const matureAge = 100;
+  const layerHeight = 0.03;
+  const matureAge = 60;
   return (
     <group rotation-z={saturate(-0.5) * Math.PI} {...props}>
       {range(0, n).map((i) => {
@@ -23,7 +23,7 @@ export function Plant({ age: n, ...props }: PlantProps) {
 
         // rotation
         const yaw = GOLDEN_ANGLE * i + 0.02 * n;
-        const pitch = Math.PI * (1.5 - 0.5 * age) - dyingStage * 1.2;
+        const pitch = Math.PI * (1.5 - 0.5 * age) - dyingStage * 1.5;
         const rotation = new Euler(pitch, yaw, 0);
         rotation.order = "YXZ";
 
