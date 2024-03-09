@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Plant } from "../Plant/Plant";
 import { useControls } from "leva";
 import { useEffect, useState } from "react";
-import { Leaf } from "../Plant/Leaf";
+import { Plant } from "../Plant/Plant";
 
 const Canvas3DContainer = styled.div`
   width: 90vw;
@@ -19,7 +18,7 @@ const Canvas3DContainer = styled.div`
 
 export function Canvas3D() {
   const { n } = useControls({
-    n: { value: 5, min: 0, max: 220, step: 1 },
+    n: { value: 160, min: 0, max: 220, step: 1 },
   });
 
   const [age, setAge] = useState(0);

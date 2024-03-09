@@ -1,14 +1,14 @@
 import { useRef } from "react";
 import {
-  CubicBezierCurve3,
   Euler,
   Mesh,
   QuadraticBezierCurve3,
   Shape,
-  ShapeUtils,
+  TextureLoader,
   Vector3,
 } from "three";
 import { saturate } from "../utils";
+import { useLoader } from "@react-three/fiber";
 
 interface LeafProps {
   position: [number, number, number];
@@ -18,6 +18,8 @@ interface LeafProps {
 
 export function Leaf({ age, ...props }: LeafProps) {
   const meshRef = useRef<Mesh>(null!);
+
+  const matcap = useLoader(TextureLoader, "/src/assets/matcap1.png");
 
   const length = age * 0.5;
   const width = age * 0.05;
@@ -31,20 +33,22 @@ export function Leaf({ age, ...props }: LeafProps) {
   const curve = new QuadraticBezierCurve3(point1, controlPoint, point2);
 
   const crossSectionShape = new Shape();
-  crossSectionShape.moveTo(0, width);
+  crossSectionShape.moveTo(0, -width / 2);
   crossSectionShape.lineTo(width * 2, 0);
   crossSectionShape.lineTo(0, -width);
   crossSectionShape.lineTo(-width * 2, 0);
-  crossSectionShape.lineTo(0, width);
+  crossSectionShape.lineTo(0, -width / 2);
+
+  const shapes = [crossSectionShape];
 
   const extrudeSettings = {
-    steps: 10,
-    depth: 16,
+    steps: 20,
+    depth: 1,
     bevelEnabled: true,
-    bevelThickness: 1,
+    bevelThickness: 2,
     bevelSize: 1,
     bevelOffset: 1,
-    bevelSegments: 4,
+    bevelSegments: 2,
     extrudePath: curve,
   };
 
@@ -54,8 +58,9 @@ export function Leaf({ age, ...props }: LeafProps) {
         {/* <boxGeometry args={[0.1, 0.1, length]} translate-z={3} /> */}
         {/* <cylinderGeometry args={[0.1, 0.1, length, 3, 4]} /> */}
         {/* <tubeGeometry args={[curve, 20, 0.1, 4, false]} /> */}
-        <extrudeGeometry args={[crossSectionShape, extrudeSettings]} />
-        <meshNormalMaterial flatShading={true} />
+        <extrudeGeometry args={[shapes, extrudeSettings]} />
+        {/* <meshNormalMaterial flatShading={true} /> */}
+        <meshMatcapMaterial matcap={matcap} />
       </mesh>
     </group>
   );
