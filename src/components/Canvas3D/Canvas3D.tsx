@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Plant } from "../Leaf/Plant";
+import { Plant } from "../Plant/Plant";
 import { useControls } from "leva";
 import { useEffect, useState } from "react";
 
 const Canvas3DContainer = styled.div`
   width: 90vw;
   height: 90vh;
-  background-color: #222;
+  background-color: #363a44;
   outline: 2px solid black;
 
   canvas {
@@ -26,9 +26,11 @@ export function Canvas3D() {
   useEffect(() => {
     const interval = setInterval(() => {
       setAge((age) => (age + 1) % 230);
-    }, 25);
+    }, 30);
     return () => clearInterval(interval);
   });
+
+  const agee = Math.max(0, age - 20);
 
   return (
     <Canvas3DContainer>
