@@ -31,3 +31,21 @@ export function mapRange(
 ): number {
   return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
 }
+
+function xorHash(input: string): number {
+  let hash = 0;
+  for (let i = 0; i < input.length; i++) {
+    const char = input.charCodeAt(i);
+    hash ^= char;
+    hash *= 0x100000001b3; // A prime number multiplier for better distribution
+  }
+  // Normalize the hash to be between 0 and 1
+  return (hash % 1000000) / 1000000; // Adjust the modulo to desired precision
+}
+
+export function pseudoRandom(n: number): number {
+  // Convert the number to a string for hashing
+  const str = n.toString();
+  // Get the hash value using xorHash
+  return xorHash(str) * 2 - 1;
+}

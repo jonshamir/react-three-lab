@@ -59,8 +59,8 @@ export function Leaf({ age, ...props }: LeafProps) {
         {/* <cylinderGeometry args={[0.1, 0.1, length, 3, 4]} /> */}
         {/* <tubeGeometry args={[curve, 20, 0.1, 4, false]} /> */}
         <extrudeGeometry args={[shapes, extrudeSettings]} />
-        {/* <meshNormalMaterial flatShading={true} /> */}
-        <meshMatcapMaterial matcap={matcap} />
+        <meshNormalMaterial flatShading={true} />
+        {/* <meshMatcapMaterial matcap={matcap} /> */}
       </mesh>
     </group>
   );

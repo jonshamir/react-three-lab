@@ -1,6 +1,6 @@
 import { useControls } from "leva";
 import { Euler } from "three";
-import { range, saturate } from "../utils";
+import { pseudoRandom, range, saturate } from "../utils";
 import { Leaf } from "./Leaf";
 
 const GOLDEN_ANGLE = 2.39996;
@@ -24,8 +24,10 @@ export function Plant({ age: n, ...props }: PlantProps) {
         const growingStage = Math.pow(saturate(age * 2), 0.3); // 0 = new, 1 = fully grown
 
         // rotation
-        const yaw = GOLDEN_ANGLE * i + 0.02 * n;
-        const pitch = Math.PI * (1.5 - 0.5 * age) - dyingStage * 1.4;
+        const rand = pseudoRandom(i);
+        const yaw = GOLDEN_ANGLE * i + 0.02 * n + rand * 0.1;
+        const pitch =
+          Math.PI * (1.5 - 0.5 * age) - dyingStage * 1.4 + rand * 0.05;
         const rotation = new Euler(pitch, yaw, 0);
         rotation.order = "YXZ";
 
