@@ -19,7 +19,7 @@ interface LeafProps {
 export function Leaf({ age, ...props }: LeafProps) {
   const meshRef = useRef<Mesh>(null!);
 
-  const matcap = useLoader(TextureLoader, "/src/assets/matcap1.png");
+  const matcap = useLoader(TextureLoader, "/src/assets/matcap0.png");
 
   const length = age * 0.5;
   const width = age * 0.05;
@@ -59,8 +59,8 @@ export function Leaf({ age, ...props }: LeafProps) {
         {/* <cylinderGeometry args={[0.1, 0.1, length, 3, 4]} /> */}
         {/* <tubeGeometry args={[curve, 20, 0.1, 4, false]} /> */}
         <extrudeGeometry args={[shapes, extrudeSettings]} />
-        <meshNormalMaterial flatShading={true} />
-        {/* <meshMatcapMaterial matcap={matcap} /> */}
+        {/* <meshNormalMaterial flatShading={true} /> */}
+        <meshMatcapMaterial matcap={matcap} />
       </mesh>
     </group>
   );

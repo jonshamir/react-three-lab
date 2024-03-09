@@ -1,6 +1,13 @@
 import styled from "@emotion/styled";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import {
+  Bloom,
+  BrightnessContrast,
+  EffectComposer,
+  HueSaturation,
+  Noise,
+} from "@react-three/postprocessing";
 import { useControls } from "leva";
 import { useEffect, useState } from "react";
 import { Plant } from "../Plant/Plant";
@@ -30,27 +37,26 @@ export function Canvas3D() {
     return () => clearInterval(interval);
   });
 
-  const agee = Math.max(0, age - 20);
+  const frame = Math.max(0, age - 20);
 
   return (
     <Canvas3DContainer>
       <Canvas
         camera={{ fov: 15, position: [0, 5, -10] }}
-        gl={{ antialias: true }}
+        gl={{ antialias: true, clearColor: 0x363a44 }}
       >
+        <color attach="background" args={["#363a44"]} />
         <OrbitControls position={[0, 0, 0]} />
         <ambientLight intensity={Math.PI / 2} />
-        <spotLight
-          position={[10, 10, 10]}
-          angle={0.15}
-          penumbra={1}
-          decay={0}
-          intensity={Math.PI}
-        />
-        <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
 
-        <Plant age={n} position={[0, -3, 0]} />
-        {/* <Leaf age={0.8} position={[0, 0, 0]} /> */}
+        <Plant age={frame} position={[0, -3, 0]} />
+
+        <EffectComposer>
+          <BrightnessContrast brightness={0} contrast={0} />
+          <HueSaturation hue={0.1} saturation={0} />
+          {/* <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} /> */}
+          <Noise opacity={0.1} />
+        </EffectComposer>
       </Canvas>
     </Canvas3DContainer>
   );
