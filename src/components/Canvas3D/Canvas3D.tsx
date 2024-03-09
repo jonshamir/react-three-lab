@@ -1,12 +1,15 @@
-import { Canvas } from "@react-three/fiber";
 import styled from "@emotion/styled";
-import { Environment, OrbitControls } from "@react-three/drei";
-import { ShaderTest } from "../ShaderTest/ShaderTest";
+import { OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Plant } from "../Leaf/Plant";
+import { useControls } from "leva";
+import { useEffect, useState } from "react";
 
 const Canvas3DContainer = styled.div`
-  width: 80vw;
-  height: 80vw;
-  background-color: white;
+  width: 90vw;
+  height: 90vh;
+  background-color: #222;
+  outline: 2px solid black;
 
   canvas {
     image-rendering: pixelated;
@@ -14,14 +17,26 @@ const Canvas3DContainer = styled.div`
 `;
 
 export function Canvas3D() {
+  const { n } = useControls({
+    n: { value: 5, min: 0, max: 220, step: 1 },
+  });
+
+  const [age, setAge] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAge((age) => (age + 1) % 230);
+    }, 25);
+    return () => clearInterval(interval);
+  });
+
   return (
     <Canvas3DContainer>
       <Canvas
-        camera={{ fov: 45, position: [0, 0, -3] }}
-        gl={{ antialias: false }}
-        dpr={0.5}
+        camera={{ fov: 15, position: [0, 5, -10] }}
+        gl={{ antialias: true }}
       >
-        <OrbitControls position={[1, 0, 0]} />
+        <OrbitControls position={[0, 0, 0]} />
         <ambientLight intensity={Math.PI / 2} />
         <spotLight
           position={[10, 10, 10]}
@@ -31,8 +46,8 @@ export function Canvas3D() {
           intensity={Math.PI}
         />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-        <ShaderTest position={[0, 0, 0]} />
-        <Environment preset="city" />
+
+        <Plant age={n} position={[0, -3, 0]} />
       </Canvas>
     </Canvas3DContainer>
   );
